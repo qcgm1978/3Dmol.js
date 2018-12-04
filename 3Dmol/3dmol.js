@@ -128,7 +128,6 @@ $3Dmol.createViewer = function (element, config) {
     if (!element) return;
 
     config = config || {};
-
     //try to create the  viewer
     try {
         return new $3Dmol.GLViewer(element, config);
@@ -246,6 +245,7 @@ $3Dmol.getbin = function (uri, callback, request, postdata) {
     var promise = new Promise(function (resolve, reject) {
 
         request = (request == undefined) ? "GET" : request;
+//         The Macromolecular Transmission Format (MMTF) is a new compact binary format to transmit and store biomolecular structures for fast 3D visualization and analysis.
         $.ajax({
             url: uri,
             dataType: "binary",

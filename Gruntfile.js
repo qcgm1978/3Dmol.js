@@ -33,7 +33,8 @@ module.exports = function (grunt) {
 
         concat: {
             options: {
-                separator: ''
+                separator: '',
+                sourceMap: true
             },
 
             pre: {
