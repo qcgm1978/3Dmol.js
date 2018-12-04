@@ -15,4 +15,3 @@ build
 doc
 doc/scripts/toc.js
 .DS_Store
-tests/auto/imgs/
