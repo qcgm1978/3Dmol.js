@@ -9,6 +9,7 @@
   "author": "David Koes and contributors",
   "homepage": "http://3dmol.csb.pitt.edu",
   "devDependencies": {
+    "concurrently": "^4.1.0",
     "grunt": "^1.0.2",
     "grunt-closure-compiler": ">=0.0.21",
     "grunt-concurrent": ">=0.5.0",
@@ -24,7 +25,9 @@
   },
   "scripts": {
     "build": "grunt build",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "start": "npm run open",
+    "open": "concurrently \"http-server -a localhost -p 1234\" \"open http://localhost:1234/tests\""
   },
   "license": "BSD-3-Clause",
   "main": "build/3Dmol-min.js",
