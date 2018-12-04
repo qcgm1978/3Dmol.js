@@ -6,17 +6,17 @@
  * All of the functionality of $3Dmol.js is contained within the
  * $3Dmol global namespace
  * @namespace */
-$3Dmol = (function(window) {
-    
+$3Dmol = (function (window) {
+
     var my = window['$3Dmol'] || {};
-    
+
     return my;
 
 })(window);
 
-if ( typeof module === "object" && typeof module.exports === "object" ) { 
-	//for node.js exporting
-	module.exports = $3Dmol; 
+if (typeof module === "object" && typeof module.exports === "object") {
+    //for node.js exporting
+    module.exports = $3Dmol;
 }
 
 /* The following code "phones home" to register that an ip 
@@ -25,8 +25,8 @@ if ( typeof module === "object" && typeof module.exports === "object" ) {
    leave this code in if you would like to increase the 
    likelihood of 3Dmol.js remaining supported.
 */
-if(!$3Dmol.notrack) {
- $.get("https://3dmol.csb.pitt.edu/track/report.cgi");
+if (!$3Dmol.notrack) {
+    $.get("https://3dmol.csb.pitt.edu/track/report.cgi");
 }
 
 /* shims for IE */
@@ -34,14 +34,14 @@ if(!$3Dmol.notrack) {
 IE Doesn't have a .startsWith 
 */
 if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function (str){
+    String.prototype.startsWith = function (str) {
         return this.lastIndexOf(str, 0) === 0;
     };
 }
 
 // or endsWith
 if (!String.prototype.endsWith) {
-    String.prototype.endsWith = function(suffix) {
+    String.prototype.endsWith = function (suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
 }
@@ -58,54 +58,54 @@ if (!String.prototype.endsWith) {
 
 // use this transport for "binary" data type
 $.ajaxTransport(
-               "+binary",
-               function(options, originalOptions, jqXHR) {
-                   // check for conditions and support for blob / arraybuffer response type
-                   if (window.FormData
-                           && ((options.dataType && (options.dataType == 'binary')) || (options.data && ((window.ArrayBuffer && options.data instanceof ArrayBuffer) || (window.Blob && options.data instanceof Blob))))) {
-                       return {
-                           // create new XMLHttpRequest
-                           send : function(headers, callback) {
-                               // setup all variables
-                               var xhr = new XMLHttpRequest(), url = options.url, type = options.type, async = options.async || true,
-                               // blob or arraybuffer. Default is blob
-                               dataType = options.responseType || "blob", data = options.data
-                                       || null, username = options.username
-                                       || null, password = options.password
-                                       || null;
+    "+binary",
+    function (options, originalOptions, jqXHR) {
+        // check for conditions and support for blob / arraybuffer response type
+        if (window.FormData
+            && ((options.dataType && (options.dataType == 'binary')) || (options.data && ((window.ArrayBuffer && options.data instanceof ArrayBuffer) || (window.Blob && options.data instanceof Blob))))) {
+            return {
+                // create new XMLHttpRequest
+                send: function (headers, callback) {
+                    // setup all variables
+                    var xhr = new XMLHttpRequest(), url = options.url, type = options.type, async = options.async || true,
+                        // blob or arraybuffer. Default is blob
+                        dataType = options.responseType || "blob", data = options.data
+                            || null, username = options.username
+                                || null, password = options.password
+                                    || null;
 
-                               var xhrret = function() {
-                                   var data = {};
-                                   data[options.dataType] = xhr.response;
-                                   // make callback and send data
-                                   callback(xhr.status, xhr.statusText,
-                                           data,
-                                           xhr.getAllResponseHeaders());
-                               };
-                               
-                               xhr.addEventListener('load', xhrret);
-                               xhr.addEventListener('error', xhrret);
-                               xhr.addEventListener('abort', xhrret);
-                               
-                               xhr.open(type, url, async, username,
-                                       password);
+                    var xhrret = function () {
+                        var data = {};
+                        data[options.dataType] = xhr.response;
+                        // make callback and send data
+                        callback(xhr.status, xhr.statusText,
+                            data,
+                            xhr.getAllResponseHeaders());
+                    };
 
-                               // setup custom headers
-                               for ( var i in headers) {
-                                   xhr.setRequestHeader(i, headers[i]);
-                               }
+                    xhr.addEventListener('load', xhrret);
+                    xhr.addEventListener('error', xhrret);
+                    xhr.addEventListener('abort', xhrret);
 
-                               xhr.responseType = dataType;
-                               xhr.send(data);
-                           },
-                           abort : function() {
-                               jqXHR.abort();
-                           }
-                       };
-                   }
-               });
+                    xhr.open(type, url, async, username,
+                        password);
 
-    
+                    // setup custom headers
+                    for (var i in headers) {
+                        xhr.setRequestHeader(i, headers[i]);
+                    }
+
+                    xhr.responseType = dataType;
+                    xhr.send(data);
+                },
+                abort: function () {
+                    jqXHR.abort();
+                }
+            };
+        }
+    });
+
+
 /**
  * Create and initialize an appropriate viewer at supplied HTML element using specification in config
  @function $3Dmol.createViewer
@@ -122,22 +122,21 @@ $.ajaxTransport(
    );
  *                        
  */
-$3Dmol.createViewer = function(element, config)
-{
-    if($.type(element) === "string")
-        element = $("#"+element);
-    if(!element) return;
+$3Dmol.createViewer = function (element, config) {
+    if ($.type(element) === "string")
+        element = $("#" + element);
+    if (!element) return;
 
-    config = config || {}; 
+    config = config || {};
 
     //try to create the  viewer
     try {
         return new $3Dmol.GLViewer(element, config);
     }
-    catch(e) {
-        throw "error creating viewer: "+e;
+    catch (e) {
+        throw "error creating viewer: " + e;
     }
-    
+
     return null;
 };
 
@@ -187,14 +186,14 @@ $3Dmol.createViewer = function(element, config)
    });
      
  */
-$3Dmol.createViewerGrid  = function(element,config,viewer_config){
-    if($.type(element) === "string")
-        element = $("#"+element);
-    if(!element) return;
+$3Dmol.createViewerGrid = function (element, config, viewer_config) {
+    if ($.type(element) === "string")
+        element = $("#" + element);
+    if (!element) return;
 
-    config = config || {}; 
+    config = config || {};
     viewer_config = viewer_config || {};
-    
+
     var viewers = [];
 
     //create canvas
@@ -205,28 +204,28 @@ $3Dmol.createViewerGrid  = function(element,config,viewer_config){
     viewer_config.control_all = config.control_all != undefined ? config.control_all : false;
     $(element).append($(canvas));
 
-      //try to create the  viewer
-    try {  
-      for(var r =0;r<config.rows;r++){
-        var row = new Array();
-        for(var c = 0;c<config.cols;c++){
-          viewer_config.row = r;
-          viewer_config.col = c;
-          viewer_config.canvas = canvas;
-          viewer_config.viewers = viewers;
-          viewer_config.control_all = config.control_all;
-          var viewer = $3Dmol.createViewer(element, viewer_config);
-          row.push(viewer)
+    //try to create the  viewer
+    try {
+        for (var r = 0; r < config.rows; r++) {
+            var row = new Array();
+            for (var c = 0; c < config.cols; c++) {
+                viewer_config.row = r;
+                viewer_config.col = c;
+                viewer_config.canvas = canvas;
+                viewer_config.viewers = viewers;
+                viewer_config.control_all = config.control_all;
+                var viewer = $3Dmol.createViewer(element, viewer_config);
+                row.push(viewer)
+            }
+            viewers.unshift(row); //compensate for weird ordering in renderer
         }
-        viewers.unshift(row); //compensate for weird ordering in renderer
-      }
-    }catch(e) {
-        throw "error creating viewer grid: "+e;
+    } catch (e) {
+        throw "error creating viewer grid: " + e;
     }
-    
+
     return viewers;
 }
-   
+
 /**
  * Contains a dictionary of embedded viewers created from HTML elements
  * with a the viewer_3Dmoljs css class indexed by their id (or numerically
@@ -242,24 +241,26 @@ $3Dmol.viewers = {};
  * @param {Function} callback - Function to call with arraybuffer as argument.  
  * @param {string} request - type of request
  * @return {Promise}
- */ 
-$3Dmol.getbin = function(uri, callback, request,postdata) {
-    var promise = new Promise(function(resolve, reject) {
-        
-        request = (request == undefined)?"GET":request;
-        $.ajax({url:uri, 
+ */
+$3Dmol.getbin = function (uri, callback, request, postdata) {
+    var promise = new Promise(function (resolve, reject) {
+
+        request = (request == undefined) ? "GET" : request;
+        $.ajax({
+            url: uri,
             dataType: "binary",
             method: request,
             data: postdata,
             responseType: "arraybuffer",
-            processData: false})
-        .done(function(ret, txt, response) {
-            resolve(ret);
+            processData: false
         })
-        .fail(function(e,txt) { 
-            console.log(txt);
-            reject();
-        });
+            .done(function (ret, txt, response) {
+                resolve(ret);
+            })
+            .fail(function (e, txt) {
+                console.log(txt);
+                reject();
+            });
     });
     if (callback) return promise.then(callback);
     else return promise;
@@ -270,11 +271,11 @@ $3Dmol.getbin = function(uri, callback, request,postdata) {
  * @function $3Dmol.base64ToArray
  * @param {string} base64 encoded string
  */
-$3Dmol.base64ToArray = function(base64) {
-    var binary_string =  window.atob(base64);
+$3Dmol.base64ToArray = function (base64) {
+    var binary_string = window.atob(base64);
     var len = binary_string.length;
-    var bytes = new Uint8Array( len );
-    for (var i = 0; i < len; i++)        {
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
         bytes[i] = binary_string.charCodeAt(i);
     }
     return bytes;
@@ -298,8 +299,8 @@ $3Dmol.base64ToArray = function(base64) {
        viewer.zoomTo();
        viewer.render(callback);
     });
- */ 
-$3Dmol.download = function(query, viewer, options, callback) {
+ */
+$3Dmol.download = function (query, viewer, options, callback) {
     var baseURL = '';
     var type = "";
     var pdbUri = "";
@@ -308,100 +309,100 @@ $3Dmol.download = function(query, viewer, options, callback) {
     if (query.substr(0, 5) === 'mmtf:') {
         pdbUri = options && options.pdbUri ? options.pdbUri : "https://mmtf.rcsb.org/v1.0/full/";
         query = query.substr(5).toUpperCase();
-        var uri = pdbUri + query;        
-        if(options && typeof options.noComputeSecondaryStructure === 'undefined') {
-                //when fetch directly from pdb, trust structure annotations
-                options.noComputeSecondaryStructure = true;
+        var uri = pdbUri + query;
+        if (options && typeof options.noComputeSecondaryStructure === 'undefined') {
+            //when fetch directly from pdb, trust structure annotations
+            options.noComputeSecondaryStructure = true;
         }
-        var promise = new Promise(function(resolve, reject) {
+        var promise = new Promise(function (resolve, reject) {
             $3Dmol.getbin(uri)
-            .then(function(ret) {
-                m.addMolData(ret, 'mmtf',options);
-                viewer.zoomTo();
-                viewer.render();
-                resolve(m);
-            });
+                .then(function (ret) {
+                    m.addMolData(ret, 'mmtf', options);
+                    viewer.zoomTo();
+                    viewer.render();
+                    resolve(m);
+                });
         });
     }
     else {
         if (query.substr(0, 4) === 'pdb:') {
             type = 'mmtf';
-            if(options && options.format) {
+            if (options && options.format) {
                 type = options.format; //can override and require pdb
             }
-            
-            if(options && typeof options.noComputeSecondaryStructure === 'undefined') {
+
+            if (options && typeof options.noComputeSecondaryStructure === 'undefined') {
                 //when fetch directly from pdb, trust structure annotations
                 options.noComputeSecondaryStructure = true;
             }
             query = query.substr(4).toUpperCase();
             if (!query.match(/^[1-9][A-Za-z0-9]{3}$/)) {
-               alert("Wrong PDB ID"); return;
+                alert("Wrong PDB ID"); return;
             }
-            if(type == 'mmtf') {
+            if (type == 'mmtf') {
                 mmtfUri = options && options.mmtfUri ? options.mmtfUri : 'https://mmtf.rcsb.org/v1.0/full/';
                 uri = mmtfUri + query.toUpperCase();
             }
-            else  {
+            else {
                 pdbUri = options && options.pdbUri ? options.pdbUri : "https://files.rcsb.org/view/";
                 uri = pdbUri + query + "." + type;
             }
-    
+
         } else if (query.substr(0, 4) == 'cid:') {
             type = "sdf";
             query = query.substr(4);
             if (!query.match(/^[0-9]+$/)) {
-               alert("Wrong Compound ID"); return;
+                alert("Wrong Compound ID"); return;
             }
-            uri = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/" + query + 
-              "/SDF?record_type=3d";
-        } else if (query.substr(0,4) == 'url:') {
+            uri = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/" + query +
+                "/SDF?record_type=3d";
+        } else if (query.substr(0, 4) == 'url:') {
             uri = query.substr(4);
             type = uri;
         }
-    
-        var handler = function(ret) {
+
+        var handler = function (ret) {
             m.addMolData(ret, type, options);
             viewer.zoomTo();
             viewer.render();
         };
-        var promise = new Promise(function(resolve, reject) {
-            if(type == 'mmtf') { //binary data
+        var promise = new Promise(function (resolve, reject) {
+            if (type == 'mmtf') { //binary data
                 $3Dmol.getbin(uri)
-                .then(function(ret) {
+                    .then(function (ret) {
+                        handler(ret);
+                        resolve(m);
+                    });
+            }
+            else {
+                $.get(uri, function (ret) {
                     handler(ret);
                     resolve(m);
+                }).fail(function (e) {
+                    console.log("fetch of " + uri + " failed: " + e.statusText);
                 });
-            }
-            else {        
-               $.get(uri, function(ret) {
-                   handler(ret);
-                   resolve(m);
-               }).fail(function(e) {
-                   console.log("fetch of "+uri+" failed: "+e.statusText);
-               });
             }
         });
     }
     if (callback) {
-        promise.then(function(m){
+        promise.then(function (m) {
             callback(m);
         });
         return m;
     }
     else return promise;
 };
-       
+
 
 /**
  * $3Dmol surface types
  * @enum {number}
  */
 $3Dmol.SurfaceType = {
-    VDW : 1,
-    MS : 2,
-    SAS : 3,
-    SES  : 4
+    VDW: 1,
+    MS: 2,
+    SAS: 3,
+    SES: 4
 };
 
 
@@ -412,22 +413,22 @@ $3Dmol.SurfaceType = {
  * @param {$3Dmol.Mesh} mesh
  * @returns {undefined}
  */
-$3Dmol.mergeGeos = function(geometry, mesh) {
-    
+$3Dmol.mergeGeos = function (geometry, mesh) {
+
     var meshGeo = mesh.geometry;
-    
-    if (meshGeo === undefined) 
+
+    if (meshGeo === undefined)
         return;
-    
-    geometry.geometryGroups.push( meshGeo.geometryGroups[0] );
-    
+
+    geometry.geometryGroups.push(meshGeo.geometryGroups[0]);
+
 };
 
-$3Dmol.multiLineString = function(f) {
+$3Dmol.multiLineString = function (f) {
     return f.toString()
-            .replace(/^[^\/]+\/\*!?/, '')
-            .replace(/\*\/[^\/]+$/, '');
-            
+        .replace(/^[^\/]+\/\*!?/, '')
+        .replace(/\*\/[^\/]+$/, '');
+
 };
 
 /** 
@@ -438,8 +439,8 @@ $3Dmol.syncSurface = false;
 
 // Internet Explorer refuses to allow webworkers in data blobs.  I can find
 // no way of checking for this feature directly, so must do a browser check
-if(window.navigator.userAgent.indexOf('MSIE ') >= 0 ||
-        window.navigator.userAgent.indexOf('Trident/') >= 0) {
+if (window.navigator.userAgent.indexOf('MSIE ') >= 0 ||
+    window.navigator.userAgent.indexOf('Trident/') >= 0) {
     $3Dmol.syncSurface = true; // can't use webworkers
 }
 
@@ -458,58 +459,58 @@ if(window.navigator.userAgent.indexOf('MSIE ') >= 0 ||
  * @param (String) str
  * @returns {Object}
  */
-$3Dmol.specStringToObject = function(str) {
-    if(typeof(str) === "object") {
+$3Dmol.specStringToObject = function (str) {
+    if (typeof (str) === "object") {
         return str; //not string, assume was converted already
     }
-    else if(typeof(str) === "undefined" || str == null) {
-        return str; 
+    else if (typeof (str) === "undefined" || str == null) {
+        return str;
     }
-    
-    str = str.replace(/%7E/,'~'); //copy/pasting urls sometimes does this
+
+    str = str.replace(/%7E/, '~'); //copy/pasting urls sometimes does this
     //convert things that look like numbers into numbers
-    var massage = function(val) {
-        if($.isNumeric(val)) {
-           //hexadecimal does not parse as float
-           if(Math.floor(parseFloat(val)) == parseInt(val)) {
-              return parseFloat(val);
-           }
-           else if(val.indexOf('.') >= 0) {
-               return parseFloat(val); // ".7" for example, does not parseInt
-           }
-           else{
-               return parseInt(val);
-           }
+    var massage = function (val) {
+        if ($.isNumeric(val)) {
+            //hexadecimal does not parse as float
+            if (Math.floor(parseFloat(val)) == parseInt(val)) {
+                return parseFloat(val);
+            }
+            else if (val.indexOf('.') >= 0) {
+                return parseFloat(val); // ".7" for example, does not parseInt
+            }
+            else {
+                return parseInt(val);
+            }
         }
         //boolean conversions
-        else if(val === 'true') {
+        else if (val === 'true') {
             return true;
         }
-        else if(val === 'false') {
+        else if (val === 'false') {
             return false;
         }
         return val;
     }
-    
+
     var ret = {};
-    if(str === 'all') return ret;
+    if (str === 'all') return ret;
     var fields = str.split(';');
-    for(var i = 0; i < fields.length; i++) {
+    for (var i = 0; i < fields.length; i++) {
         var fv = fields[i].split(':');
         var f = fv[0];
         var val = {};
         var vstr = fv[1];
-        if(vstr) {
-            vstr = vstr.replace(/~/g,"=");
-            if(vstr.indexOf('=') !== -1) {
+        if (vstr) {
+            vstr = vstr.replace(/~/g, "=");
+            if (vstr.indexOf('=') !== -1) {
                 //has key=value pairs, must be object
                 var kvs = vstr.split(',');
-                for(var j = 0; j < kvs.length; j++) {
-                    var kv = kvs[j].split('=',2);
+                for (var j = 0; j < kvs.length; j++) {
+                    var kv = kvs[j].split('=', 2);
                     val[kv[0]] = massage(kv[1]);
                 }
             }
-            else if(vstr.indexOf(',') !== -1) {
+            else if (vstr.indexOf(',') !== -1) {
                 //has multiple values, must list
                 val = vstr.split(',');
             }
@@ -520,7 +521,7 @@ $3Dmol.specStringToObject = function(str) {
         ret[f] = val;
     }
 
-  return ret;
+    return ret;
 }
 
 
@@ -529,33 +530,33 @@ $3Dmol.specStringToObject = function(str) {
  * @param {AtomSpec[]} atomlist
  * @return {Array}
  */
-$3Dmol.getExtent = function(atomlist, ignoreSymmetries) {
+$3Dmol.getExtent = function (atomlist, ignoreSymmetries) {
     var xmin, ymin, zmin, xmax, ymax, zmax, xsum, ysum, zsum, cnt;
     var includeSym = !ignoreSymmetries;
 
     xmin = ymin = zmin = 9999;
     xmax = ymax = zmax = -9999;
     xsum = ysum = zsum = cnt = 0;
-    
+
     if (atomlist.length === 0)
-        return [ [ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ] ];
+        return [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     for (var i = 0; i < atomlist.length; i++) {
         var atom = atomlist[i];
         if (typeof atom === 'undefined' || !isFinite(atom.x) ||
-                !isFinite(atom.y) || !isFinite(atom.z))
+            !isFinite(atom.y) || !isFinite(atom.z))
             continue;
         cnt++;
         xsum += atom.x;
         ysum += atom.y;
         zsum += atom.z;
-        
+
         xmin = (xmin < atom.x) ? xmin : atom.x;
         ymin = (ymin < atom.y) ? ymin : atom.y;
         zmin = (zmin < atom.z) ? zmin : atom.z;
         xmax = (xmax > atom.x) ? xmax : atom.x;
         ymax = (ymax > atom.y) ? ymax : atom.y;
         zmax = (zmax > atom.z) ? zmax : atom.z;
-        
+
         if (atom.symmetries && includeSym) {
             for (var n = 0; n < atom.symmetries.length; n++) {
                 cnt++;
@@ -567,24 +568,24 @@ $3Dmol.getExtent = function(atomlist, ignoreSymmetries) {
                 zmin = (zmin < atom.symmetries[n].z) ? zmin : atom.symmetries[n].z;
                 xmax = (xmax > atom.symmetries[n].x) ? xmax : atom.symmetries[n].x;
                 ymax = (ymax > atom.symmetries[n].y) ? ymax : atom.symmetries[n].y;
-                zmax = (zmax > atom.symmetries[n].z) ? zmax : atom.symmetries[n].z; 
+                zmax = (zmax > atom.symmetries[n].z) ? zmax : atom.symmetries[n].z;
             }
-        }  
+        }
     }
 
-    return [ [ xmin, ymin, zmin ], [ xmax, ymax, zmax ],
-            [ xsum / cnt, ysum / cnt, zsum / cnt ] ];
+    return [[xmin, ymin, zmin], [xmax, ymax, zmax],
+    [xsum / cnt, ysum / cnt, zsum / cnt]];
 };
 
 
 //return the value of an atom property prop, or null if non existent
 //looks first in properties, then in the atom itself
-$3Dmol.getAtomProperty = function(atom, prop) {
+$3Dmol.getAtomProperty = function (atom, prop) {
     var val = null;
     if (atom.properties
-            && typeof (atom.properties[prop]) != "undefined") {
+        && typeof (atom.properties[prop]) != "undefined") {
         val = atom.properties[prop];
-    } else if(typeof(atom[prop]) != 'undefined') {
+    } else if (typeof (atom[prop]) != 'undefined') {
         val = atom[prop];
     }
     return val;
@@ -603,12 +604,12 @@ $3Dmol.getPropertyRange = function (atomlist, prop) {
     for (var i = 0, n = atomlist.length; i < n; i++) {
         var atom = atomlist[i];
         var val = $3Dmol.getAtomProperty(atom, prop);
-        
-        if(val != null) {
+
+        if (val != null) {
             if (val < min)
                 min = val;
             if (val > max)
-                max = val;                
+                max = val;
         }
     }
 
@@ -619,13 +620,13 @@ $3Dmol.getPropertyRange = function (atomlist, prop) {
     else if (!isFinite(max))
         max = min;
 
-    return [ min, max ];
+    return [min, max];
 }
 
 //hackish way to work with requirejs - doesn't actually work yet
 //since we doing use the require optimizer to combine modules
-if( typeof(define) === 'function' && define.amd) {
-    define('$3Dmol',$3Dmol);
+if (typeof (define) === 'function' && define.amd) {
+    define('$3Dmol', $3Dmol);
 }
 
 /* StereoViewer for stereoscopic viewing
@@ -634,62 +635,62 @@ if( typeof(define) === 'function' && define.amd) {
 * 
 */
 
-$3Dmol.createStereoViewer = function(element) {
+$3Dmol.createStereoViewer = function (element) {
     var that = this;
-    if($.type(element) === "string")
-        element = $("#"+element);
-    if(!element) return;
-    
-    var viewers = $3Dmol.createViewerGrid(element, {rows: 1, cols: 2, control_all: true});
-    
+    if ($.type(element) === "string")
+        element = $("#" + element);
+    if (!element) return;
+
+    var viewers = $3Dmol.createViewerGrid(element, { rows: 1, cols: 2, control_all: true });
+
     this.glviewer1 = viewers[0][0];
     this.glviewer2 = viewers[0][1];
-    
+
     this.glviewer1.setAutoEyeSeparation(false);
-    this.glviewer2.setAutoEyeSeparation(true);    
+    this.glviewer2.setAutoEyeSeparation(true);
 
     this.glviewer1.linkViewer(this.glviewer2);
     this.glviewer2.linkViewer(this.glviewer1);
 
     var methods = Object.getOwnPropertyNames(this.glviewer1) //get all methods of glviewer object
-    .filter(function(property) {
-        return typeof that.glviewer1[property] == 'function';
-    });
+        .filter(function (property) {
+            return typeof that.glviewer1[property] == 'function';
+        });
 
     for (var i = 0; i < methods.length; i++) { //create methods of the same name
-        this[methods[i]] = (function(method){
-            return function(){
-                var m1=this['glviewer1'][method].apply(this['glviewer1'],arguments);
-                var m2=this['glviewer2'][method].apply(this['glviewer2'],arguments);
-                return [m1,m2];
+        this[methods[i]] = (function (method) {
+            return function () {
+                var m1 = this['glviewer1'][method].apply(this['glviewer1'], arguments);
+                var m2 = this['glviewer2'][method].apply(this['glviewer2'], arguments);
+                return [m1, m2];
             };
         })(methods[i]);
     }
-    
+
     //special cased methods
     this.setCoordinates = function (models, data, format) { //for setting the coordinates of the models
         for (var i = 0; i < models.length; i++) {
             models[i].setCoordinates(data, format);
         }
     };
-    
-    this.surfacesFinished = function() {
+
+    this.surfacesFinished = function () {
         return this.glviewer1.surfacesFinished() && this.glviewer2.surfacesFinished();
     };
-    
-    this.isAnimated = function() {
+
+    this.isAnimated = function () {
         return this.glviewer1.isAnimated() || this.glviewer2.isAnimated();
     };
-    
-    this.render = function(callback) {
+
+    this.render = function (callback) {
         this.glviewer1.render();
         this.glviewer2.render();
-        if(callback) {
+        if (callback) {
             callback(this); //call only once
         }
     };
-    
-    this.getCanvas = function() {
+
+    this.getCanvas = function () {
         return this.glviewer1.getCanvas(); //same for both
     };
 

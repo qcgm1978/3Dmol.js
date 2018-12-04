@@ -23,7 +23,7 @@
     <script src="../build/3Dmol.js"></script>
     <script>
         var viewer = $3Dmol.createViewer($("#div"));
-        $3Dmol.download("pdb:1MO8", viewer, { multimodel: true, frames: true }, function () {
+        $3Dmol.download("pdb:1MO8", viewer, { multimodel: true, frames: true }).then(_ => {
             viewer.setStyle({}, { cartoon: { color: "spectrum" } });
             viewer.render();
         });
