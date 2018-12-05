@@ -22,17 +22,22 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-node-inspector": ">=0.1.5",
     "grunt-shell": ">=0.7.0",
-    "jsdoc": ">=3.5.5"
+    "jest": "^23.6.0",
+    "jquery": "^3.3.1",
+    "jsdoc": ">=3.5.5",
+    "jsdom": "^13.0.0"
   },
   "scripts": {
     "build": "grunt build",
     "prepublish": "npm run build",
     "start": "npm run open",
-    "open": "concurrently \"http-server -a localhost -p 1234\" \"open http://localhost:1234/tests\""
+    "open": "concurrently \"http-server -a localhost -p 1234\" \"open http://localhost:1234/tests\"",
+    "test": "NODE_DEBUG=performance node --inspect=127.0.0.1:7002 ./node_modules/jest/bin/jest.js --watch"
   },
   "license": "BSD-3-Clause",
   "main": "build/3Dmol-min.js",
   "dependencies": {
-    "async": "^2.6.1"
+    "async": "^2.6.1",
+    "unfetch": "^4.0.1"
   }
 }
