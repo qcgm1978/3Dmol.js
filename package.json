@@ -32,7 +32,7 @@
     "prepublish": "npm run build",
     "start": "npm run open",
     "open": "concurrently \"http-server -a localhost -p 1234\" \"open http://localhost:1234/tests\"",
-    "test": "NODE_DEBUG=performance node --inspect=127.0.0.1:7002 ./node_modules/jest/bin/jest.js --watch"
+    "test": "NODE_DEBUG=performance node --inspect=127.0.0.1:7002 ./node_modules/jest/bin/jest.js --watch --env node --setupTestFrameworkScriptFile=./jest.js"
   },
   "license": "BSD-3-Clause",
   "main": "build/3Dmol-min.js",

@@ -1,13 +1,5 @@
-// const $3Dmol = require('../3Dmol/3dmol');
-// window.$ = { ajax: jest.genMockFunction() }
-
-// const $ = require('jquery')
-// const MMTF = require('mmtf-javascript')
 const fetch = require('unfetch')
-// describe('others', () => {
-//     describe('new String()', () => {
 it('MMTF', () => {
-    expect(true).toBeTruthy()
     const uri = "https://mmtf.rcsb.org/v1.0/full/1MO8", request = 'GET', postdata = undefined
     // MMTF.fetch(
     //     "3PQR",
@@ -17,6 +9,7 @@ it('MMTF', () => {
     //     function (error) { console.error(error) }
     // );
     fetch(uri, {
+        credentials: 'include',
         url: uri,
         dataType: "binary",
         method: request,
@@ -26,11 +19,10 @@ it('MMTF', () => {
     })
         .then(function (ret, txt, response) {
             debugger
+            expect(true).toBeFalsy()
             done();
         }).catch(err => {
             debugger;
         })
 
-});
-//     });
-// })
+})
